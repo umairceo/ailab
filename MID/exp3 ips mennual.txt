@@ -1,0 +1,67 @@
+Certainly! Below are the CLI commands you can use to configure each device based on the provided addressing table:
+
+### Router (R)
+
+```
+enable
+configure terminal
+interface GigabitEthernet0/0
+ip address 192.168.1.1 255.255.255.0
+no shutdown
+exit
+interface GigabitEthernet0/1
+ip address 172.16.5.1 255.255.0.0
+no shutdown
+exit
+exit
+write memory
+```
+
+### Switch 1 (S1)
+
+```
+enable
+configure terminal
+interface VLAN 1
+ip address 192.168.1.2 255.255.255.0
+no shutdown
+exit
+exit
+write memory
+```
+
+### Switch 2 (S2)
+
+```
+enable
+configure terminal
+interface VLAN 1
+ip address 172.16.5.2 255.255.0.0
+no shutdown
+exit
+exit
+write memory
+```
+
+### PC-A, PC-B, PC1, PC2 (assuming Windows)
+
+You can configure the IP address, subnet mask, and default gateway using Windows command prompt. Here's how you can do it:
+
+```
+netsh interface ipv4 set address name="Local Area Connection" static 172.16.5.3 255.255.0.0 172.16.5.1
+netsh interface ipv4 set address name="Local Area Connection" static 172.16.5.4 255.255.0.0 172.16.5.1
+netsh interface ipv4 set address name="Local Area Connection" static 192.168.1.3 255.255.255.0 192.168.1.1
+netsh interface ipv4 set address name="Local Area Connection" static 192.168.1.4 255.255.255.0 192.168.1.1
+```
+
+Replace "Local Area Connection" with the name of your network interface if it's different.
+
+### Testing Connectivity
+
+Once configurations are applied, you can test connectivity using the `ping` command:
+
+```
+ping <IP address of the destination device>
+```
+
+Make sure to test connectivity between devices within the same subnet and across different subnets to verify that the configurations are correct and communication is established as expected.

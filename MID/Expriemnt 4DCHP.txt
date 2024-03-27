@@ -1,0 +1,71 @@
+Here are the organized commands with instructions for each part of the activity:
+
+**Part 1: Basic Connections**
+- Connect all devices together using copper straight through connections as depicted in figure 4.1.
+
+**Part 2: Accessing the CLI and Basic Configuration**
+- Access the CLI of S1 switch.
+- Perform basic configurations such as setting the clock, assigning a hostname, setting a banner, configuring console and privilege mode passwords, and enabling encryption.
+
+**Part 3 and 4: Implement Basic Addressing on Network Devices**
+- Configure the management interface of S1 with an IP address.
+```plaintext
+S1(config)# interface vlan 1
+S1(config-if)# ip address 192.168.1.2 255.255.255.0
+S1(config-if)# no shutdown
+S1(config-if)# exit
+S1(config)# ip default-gateway 192.168.1.1
+S1(config)# exit
+S1# copy running-config startup-config
+```
+- Configure interfaces on Router R with IP addresses.
+```plaintext
+R> enable
+R # configure terminal
+R (config) # interface gigabitEthernet 0/0
+R(config-if)# ip address 192.168.1.1 255.255.255.0
+R(config-if)# description connected to ACCOUNTS
+R(config-if)# no shutdown
+R(config-if)# end
+R# copy running-config startup-config
+```
+
+**Part 5: Configure DHCPv4 on Router**
+```plaintext
+R(config)# service dhcp
+R(config)# ip dhcp pool ACCOUNTS
+R(dhcp-config)# network 192.168.1.0 255.255.255.0
+R(dhcp-config)# default-router 192.168.1.1
+R(dhcp-config)# dns-server 8.8.8.8
+R(dhcp-config)# exit
+R(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.2
+R(config)# exit
+R# write memory
+```
+
+**Part 6: Enable DHCP Services in PCs**
+- Enable DHCP on each PC by going to the DESKTOP tab, navigating to IP configuration, and checking on DHCP.
+
+**Part 7: Verify DHCP Services on Router R**
+- Check DHCP address leases:
+```plaintext
+R# show ip dhcp binding
+```
+- View DHCP pool statistics and message activity:
+```plaintext
+R# show ip dhcp server statistics
+```
+- View DHCP pool settings:
+```plaintext
+R# show ip dhcp pool
+```
+- View DHCP configuration in the running configuration:
+```plaintext
+R# show run | section dhcp
+```
+
+**Part 8: Verify Network Connectivity by Using PING**
+- From each PC, ping the IP addresses for S1 and R, as well as the default gateway.
+- Ensure all pings are successful. If not, troubleshoot connectivity issues.
+
+These commands and steps should help you complete each part of the activity.

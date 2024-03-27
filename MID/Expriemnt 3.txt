@@ -1,0 +1,112 @@
+Here are all the commands organized according to the given instructions:
+
+### Part 1: Basic Connections, Accessing the CLI and Exploring Help
+
+1. Connect Devices:
+   - Follow the instructions to connect PC1, PC3, PC-A, PC-B, R, S1, and S2 using copper straight-through cables.
+
+### Part 2: Accessing the CLI of each network device to do basic configuration
+
+1. Configure S1:
+   ```plaintext
+   S1> enable
+   S1# configure terminal
+   S1(config)# hostname S1
+   S1(config)# line console 0
+   S1(config-line)# password letmein
+   S1(config-line)# login
+   S1(config-line)# exit
+   S1(config)# enable password c1$c0
+   S1(config)# enable secret itsasecret
+   S1(config)# service password-encryption
+   S1(config)# banner motd "This is a secure system. Authorized Access Only!"
+   S1(config)# end
+   S1# copy running-config startup-config
+   ```
+
+2. Configure S2 (similar to S1):
+   ```plaintext
+   S2> enable
+   S2# configure terminal
+   S2(config)# hostname S2
+   S2(config)# line console 0
+   S2(config-line)# password letmein
+   S2(config-line)# login
+   S2(config-line)# exit
+   S2(config)# enable password c1$c0
+   S2(config)# enable secret itsasecret
+   S2(config)# service password-encryption
+   S2(config)# banner motd "Authorized access only. Unauthorized access is prohibited and violators will be prosecuted to the full extent of the law."
+   S2(config)# end
+   S2# copy running-config startup-config
+   ```
+
+3. Configure Router R:
+   ```plaintext
+   R> enable
+   R# configure terminal
+   R(config)# hostname R
+   R(config)# interface gigabitEthernet 0/0
+   R(config-if)# ip address 192.168.1.1 255.255.255.0
+   R(config-if)# no shutdown
+   R(config-if)# exit
+   R(config)# interface gigabitEthernet 0/1
+   R(config-if)# ip address 172.16.5.1 255.255.0.0
+   R(config-if)# no shutdown
+   R(config-if)# end
+   R# copy running-config startup-config
+   ```
+
+### Part 3 and 4: Implement Basic Addressing and Connectivity
+
+1. Configure PCs:
+   - Configure PC-A, PC-B, PC1, PC2, and PC3 with their respective IP addresses, subnet masks, and default gateways.
+
+2. Configure Switches' Management Interfaces:
+   ```plaintext
+   S1> enable
+   S1# configure terminal
+   S1(config)# interface vlan 1
+   S1(config-if)# ip address 192.168.1.2 255.255.255.0
+   S1(config-if)# no shutdown
+   S1(config-if)# exit
+   S1(config)# line vty 0 4
+   S1(config-line)# password cisco
+   S1(config-line)# login
+   S1(config-line)# end
+   S1# copy running-config startup-config
+   ```
+
+   - Configure S2 similarly.
+
+3. Verify Router R's IP configuration:
+   - Use `show ip interface brief` command or `show running-config`.
+
+### Part 5: Configure default gateway on both Switches (S1 and S2)
+
+1. Configure default gateway on S1:
+   ```plaintext
+   S1> enable
+   S1# configure terminal
+   S1(config)# ip default-gateway 192.168.1.1
+   S1(config)# exit
+   S1# copy run start
+   ```
+
+2. Configure default gateway on S2 (similar to S1).
+
+### Part 6: Verify Network Connectivity by using PING
+
+1. Ping all devices from PCs (PC-A, PC-B, PC1, PC2, and PC3).
+   - Use `ping` command followed by the IP address of each device.
+
+### Part 7: Test and verify remote management of S1
+
+1. Telnet to S1 from PC-A:
+   ```plaintext
+   C:\Users\NetAcad> telnet 192.168.1.2
+   ```
+
+2. Enter the password when prompted.
+3. Once logged in, use `enable` command and enter the password to access privileged mode.
+4. Verify configurations using `show run`.
